@@ -1,15 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "outDir": "./dist",
+    "target": "ESNext",
+    "module": "CommonJS",
+    "rootDir": ".",
+    "baseUrl": "src",
+    "outDir": "dist",
     "strict": true,
-    "strictPropertyInitialization": false,
-    "allowJs": true,
     "esModuleInterop": true,
-
-    "emitDecoratorMetadata": true,
-
-    "experimentalDecorators": true
-  }
+    "resolveJsonModule": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "incremental": true,
+    "allowJs": true,
+    "paths": {
+      "@/*": ["*"]
+    }
+  },
+  "include": ["src", "package.json"]
 }
