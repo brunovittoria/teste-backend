@@ -1,5 +1,5 @@
 {
-  "name": "bun",
+  "name": "teste-backend",
   "type": "commonjs",
   "version": "0.0.1",
   "devDependencies": {
