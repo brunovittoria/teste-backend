@@ -1,23 +1,21 @@
 import type { ErrorRequestHandler } from 'express'
 
-import { translateText } from '@/shared'
-
 import { ZodError } from 'zod'
 import { AxiosError } from 'axios'
 
 const error = async (err: any) => {
   if (typeof err.message === 'string') {
-    return [await translateText(err.message)]
+    return [await err.message]
   }
 
   if (err.message instanceof Array) {
-    const translatedErrors = await Promise.all(err.message.map((error: string) => translateText(error)))
+    const translatedErrors = await Promise.all(err.message.map((error: string) => error))
 
     return translatedErrors
   }
 
   if (err.message instanceof Object) {
-    const translatedErrors = await Promise.all(Object.values(err.message).map((error: any) => translateText(error)))
+    const translatedErrors = await Promise.all(Object.values(err.message).map((error: any) => error))
 
     return translatedErrors
   }

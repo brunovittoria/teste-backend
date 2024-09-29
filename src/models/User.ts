@@ -1,7 +1,7 @@
-import { Schema } from 'mongoose'
+import { DataTypes, Model } from 'sequelize'
 import { z } from 'zod'
 
-import { azePlastDB, setDefaultSettingsSchema } from '@/shared'
+import { weFitDbSequelize, setDefaultSettingsSchema } from '@/shared'
 import { collectionsData } from '@/config'
 
 const userPermissions = ['user', 'admin'] as const
@@ -11,19 +11,38 @@ export const UserSchema = z.object({
   permissions: z.enum(userPermissions)
 })
 
-export type IUser = DocumentSchemaZod<typeof UserSchema>
+export type IUser = z.infer<typeof UserSchema> // Definicao do type do user do ZOD
 
-const SchemaModel = new Schema<IUser>(
+// Crieando o modelo do sequelize para a table "User"
+export class User extends Model<IUser> {
+  declare id: number
+  declare name: string
+  declare permissions: (typeof userPermissions)[number]
+
+  // Getter virtual para retornar o nome completo, por exemplo
+  get fullName(): string {
+    return `${this.name}` // Exemplo simples para retornar o nome como "nome completo"
+  }
+}
+
+// iniciando o model com sequelize
+User.init(
   {
-    name: { type: String, required: true },
-    permissions: { type: String, enum: userPermissions, default: 'user' }
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    permissions: {
+      type: DataTypes.ENUM(...userPermissions),
+      defaultValue: 'user'
+    }
   },
   {
-    timestamps: true,
-    collection: collectionsData.User.collection
+    sequelize: weFitDbSequelize,
+    tableName: collectionsData.User.collection,
+    timestamps: true
   }
 )
 
-setDefaultSettingsSchema(SchemaModel)
-
-export const User = azePlastDB.model<IUser>(collectionsData.User.name, SchemaModel)
+// Aplicando as config padrão ao model user
+setDefaultSettingsSchema(User)

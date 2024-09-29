@@ -1,9 +1,22 @@
-import type { Schema } from 'mongoose'
+import { Model, ModelStatic } from 'sequelize'
 
-export const setDefaultSettingsSchema = (schema: Schema) => {
-  schema.set('toJSON', { virtuals: true })
+export const setDefaultSettingsSchema = (model: ModelStatic<Model>) => {
+  // Configurar getters virtuais, se necessário
+  model.prototype.toJSON = function () {
+    const attributes = { ...this.get() }
 
-  schema.set('toObject', { virtuals: true })
+    // Excluir atributos sensíveis ou indesejados no JSON de resposta
+    delete attributes.password // Ex: remove pwd do return JSON
+    delete attributes.versionKey // Ex: Se houver uma chave de versão manual
 
-  schema.set('versionKey', false)
+    return attributes
+  }
+
+  // Adicionei getters virtuais
+  Object.defineProperty(model.prototype, 'fullName', {
+    get() {
+      // ex de campo virtual: retornar 'nome completo' a partir de outros atributos
+      return `${this.firstName} ${this.lastName}`
+    }
+  })
 }
