@@ -1,6 +1,6 @@
 import app from './app'
 
-const port = process.env.MYSQLDB_PORT
+const port = process.env.SERVER_PORT
 
 try {
   app.listen(port, () => console.log(`Application running on port ${port}`))

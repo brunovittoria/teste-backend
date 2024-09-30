@@ -1,4 +1,4 @@
-import { number, string } from "zod"
+import { number, string } from 'zod'
 
 export declare global {
   namespace NodeJS {
@@ -9,6 +9,8 @@ export declare global {
       MYSQLDB_PASSWORD: string
 
       MYSQLDB_PORT: number
+
+      SERVER_PORT: number
 
       MYSQLDB_DATABASE: string
     }
