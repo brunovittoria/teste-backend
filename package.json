@@ -32,6 +32,7 @@
   },
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "sequelize": "sequelize --config sequelize.config.js"
   }
 }

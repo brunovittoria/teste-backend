@@ -21,12 +21,11 @@ export const UserSchema = z.object({
   cidade: z.string(),
   bairro: z.string(),
   estado: z.string(),
-  termsAccepted: z.boolean() // validacao do termo de uso
+  termsAccepted: z.boolean()
 })
 
-export type IUser = z.infer<typeof UserSchema> // Definicao do type do user do ZOD
+export type IUser = z.infer<typeof UserSchema>
 
-// Crieando o modelo do sequelize para a table "User"
 export class User extends Model<IUser> {
   declare id: number
   declare name: string
@@ -45,13 +44,11 @@ export class User extends Model<IUser> {
   declare estado: string
   declare termsAccepted: boolean
 
-  // Getter virtual para retornar o nome completo, por exemplo
   get fullName(): string {
-    return `${this.name}` // Exemplo simples para retornar o nome como "nome completo"
+    return `${this.name}`
   }
 }
 
-// iniciando o model com sequelize
 User.init(
   {
     name: {
@@ -133,5 +130,4 @@ User.init(
   }
 )
 
-// Aplicando as config padrão ao model user
 setDefaultSettingsSchema(User)

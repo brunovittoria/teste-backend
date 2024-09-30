@@ -11,7 +11,6 @@ export const weFitDBPool = mysql.createPool({
   connectionLimit: 10
 })
 
-// Configuração do Sequelize
 export const weFitDbSequelize = new Sequelize(MYSQLDB_DATABASE, 'root', MYSQLDB_PASSWORD, {
   host: 'localhost',
   port: MYSQLDB_PORT,
@@ -19,17 +18,17 @@ export const weFitDbSequelize = new Sequelize(MYSQLDB_DATABASE, 'root', MYSQLDB_
   pool: {
     max: 10,
     min: 0,
-    acquire: 30000, // Time mx de espera por uma conexão em ms
-    idle: 10000 // Time mx que uma conexão pode ficar ociosa antes de ser liberada
+    acquire: 30000,
+    idle: 10000
   },
-  logging: false // Desativa logs SQL no console
+  logging: false
 })
 
 async function checkMySQLPoolConnection() {
   try {
     const connection = await weFitDBPool.getConnection()
     console.log('Conexão com o pool MySQL obtida com sucesso')
-    connection.release() // Liberar a conexão de volta ao pool
+    connection.release()
   } catch (err) {
     console.error('Erro ao conectar ao pool do MySQL:', err)
   }
@@ -44,7 +43,6 @@ async function checkSequelizeConnection() {
   }
 }
 
-// Verificar ambas as conexões ao iniciar o app
 checkMySQLPoolConnection()
 checkSequelizeConnection()
 
